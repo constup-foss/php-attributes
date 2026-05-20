@@ -2,15 +2,37 @@
 :toc:
 :toclevels: 5
 
+image:https://img.shields.io/badge/PHP-8.5-blue[Static Badge]
+image:https://img.shields.io/badge/License-MIT-green[Static Badge]
+image:https://img.shields.io/github/downloads/constup-foss/php-attributes/total[GitHub Downloads (all assets, all releases)]
+image:https://img.shields.io/packagist/dt/constup-foss/php-attributes[Packagist Downloads]
+
 == Description
 
 A collection of PHP attributes and their processors.
+
+The main idea behind several attributes in this library is to leverage First Class Callables in static expressions
+(link:https://wiki.php.net/rfc/fcc_in_const_expr[PHP RFC Wiki]) introduced in PHP 8.5. FCCs allow you to have attributes
+whose arguments are not static, but rather resolved during runtime. This removes the clutter of having multiple distinct
+attributes to cover the same base functionality, for example, validation.
+
+Of course, since this approach has its benefits and downsides, this library contains classic attributes with static
+arguments. You are free to use the ones that are the best fit for your use case.
+
+== Supporting development
+
+If you like this library or find it useful, consider buying me a nice cup of coffee. Coffee fuels open source.
+
+image:doc/bmac.png[width=197]
+
+link:https://www.buymeacoffee.com/puEW3HvWvP[image:https://cdn.buymeacoffee.com/buttons/v2/default-green.png[width=200]]
+
 
 == Installation
 
 [source]
 ----
-composer require constup/php-attributes
+composer require constup-foss/php-attributes
 ----
 
 == Available attributes
@@ -32,3 +54,11 @@ MIT License
 
 - License file: link:LICENSE.txt[LICENSE.txt]
 - Online version: https://opensource.org/license/mit
+
+== Supporting development
+
+If you like this library or find it useful, consider buying me a nice cup of coffee. Coffee fuels open source.
+
+image:doc/bmac.png[width=197]
+
+link:https://www.buymeacoffee.com/puEW3HvWvP[image:https://cdn.buymeacoffee.com/buttons/v2/default-green.png[width=200]]
