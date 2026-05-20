@@ -1,6 +1,6 @@
 {
-  "name": "constup/php-attributes",
-  "description": "A collection opf PHP attributes and their processors.",
+  "name": "constup-foss/php-attributes",
+  "description": "A collection of PHP attributes and their processors.",
   "license": "MIT",
   "readme": "README.adoc",
   "autoload": {
