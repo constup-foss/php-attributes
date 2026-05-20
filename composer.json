@@ -45,5 +45,15 @@
     "phpunit": "Run PHP Unit on the whole project. PHP Unit must be installed as Composer dependency.",
     "phpunit-coverage": "Run PHP Unit on the whole project and generate a code coverage report. PHP Unit must be installed as Composer dependency.",
     "phpunit-migrate-configuration": "Migrate PHPUnit configuration to the new format. PHP Unit must be installed as Composer dependency."
-  }
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/c/NikolaStojiljkovic"
+    },
+    {
+      "type": "buymeacoffee",
+      "url": "https://www.buymeacoffee.com/puew3hvwvp"
+    }
+  ]
 }
