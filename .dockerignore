@@ -29,3 +29,6 @@ compose_secrets/
 
 # ProjectInit CLI
 projectinit_cli.sh
+
+# GitHub
+.github/

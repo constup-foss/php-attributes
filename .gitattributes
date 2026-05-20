@@ -12,3 +12,4 @@
 /projectinit_docker export-ignore
 /public export-ignore
 /tests export-ignore
+/.github export-ignore
