@@ -1,0 +1,34 @@
+= constUP PHP Attributes
+:toc:
+:toclevels: 5
+
+== Description
+
+A collection of PHP attributes and their processors.
+
+== Installation
+
+[source]
+----
+composer require constup/php-attributes
+----
+
+== Available attributes
+
+[source, php]
+----
+#[DoNotSerialize]
+#[TransformPropertyName(\Closure $transformer)]
+#[TransformPropertyValue(\Closure $transformer)]
+#[ValidateProperty(\Closure $validator)]
+----
+
+More detailed list of available attributes, their processors and links to individual documentation pages is available
+here: link:doc/available_attributes.adoc[Available attributes]
+
+== License
+
+MIT License
+
+- License file: link:LICENSE.txt[LICENSE.txt]
+- Online version: https://opensource.org/license/mit

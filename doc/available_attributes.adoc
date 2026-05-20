@@ -1,0 +1,13 @@
+= Available attributes
+
+* Serialization
+** link:available_attributes/serialization/do_not_serialize.adoc[`#[DoNotSerialize]`] - Use this attribute to mark a
+class or a class property for skipping during serialization/normalization. Can be used in custom serializers
+or normalizers.
+** link:available_attributes/serialization/transform_property_name.adoc[`#[TransformPropertyName]`] - Use this attribute
+to transform a name of your property during serialization. Runtime resolved arguments.
+** link:available_attributes/serialization/transform_property_value.adoc[`#[TransformPropertyValue]`] - Use this
+attribute to transform the value of your property. Runtime resolved arguments.
+* Validation
+** link:available_attributes/validation/validate_property.adoc[`#[ValidateProperty]`] - Use this attribute to validate
+the value of your property. Runtime resolved arguments.

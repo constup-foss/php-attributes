@@ -1,0 +1,86 @@
+= `#[TransformPropertyName]`
+:toc:
+:toclevels: 5
+
+== Description
+
+Use this attribute to transform a name of your property during serialization.
+
+* Applicable to:
+** Class properties
+
+* Arguments
+** `Closure $transformer` - link:https://wiki.php.net/rfc/fcc_in_const_expr[First Class Callable (PHP RFC Wiki link)].
+Note that this attribute only supports using static methods.
+
+* Repeatable: no
+
+== Attribute Processors
+
+=== `TransformPropertyNameProcessor`
+
+Processor: link:../../../src/Serialization/TransformPropertyName/TransformPropertyNameProcessor.php[`TransformPropertyNameProcessor`]
+
+Methods:
+
+* `::transform(string|object $classOrObject, string $propertyName, array $transformationArguments = []): string` -
+Returns a transformed version of property's name by running the `Closure $transformer`.
+If the attribute is not present, the original `$propertyName` is returned.
++
+Note that the closure is run with the `$propertyName` as the first argument, followed by `$transformationArguments`.
+This effectively means that your static method that does the transformation must have the property name as its first
+argument.
++
+`$transformationArguments` is an associative array of additional transformation arguments. Index is the name of the
+property the attribute is being applied to. Value is an array of arguments to be passed to the transformation closure
+after the property name.
+
+
+==== Usage
+
+===== Basic example
+
+Apply the attribute to a property:
+
+[source,php]
+----
+#[TransformPropertyName(YourNameTransformingClass::yourStaticMethod(...))]
+public int $yourProperty;
+----
+
+When you need to transform the name of your property, call:
+
+[source,php]
+----
+$transformedPropertyName = TransformPropertyNameProcessor::transform(
+    classOrObject: TargetClass::class,
+    propertyName: 'targetProperty',
+    transformationArguments: ['targetProperty' => [$arrayOfArguments, $neededByYourStaticMethod]]
+);
+----
+
+Remember to place `string $propertyName` as the first parameter of your static method.
+
+==== Edge cases
+
+===== Calling the processor on generic `object`
+
+Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
+always return the original property name, since no attributes are applied.
+
+[source,php]
+----
+$object = (object)["targetProperty" => "someValue"];
+$transformedPropertyName = TransformPropertyNameProcessor::transform(
+    classOrObject: $object,
+    propertyName: 'targetProperty',
+    transformationArguments: ['targetProperty' => [$arrayOfArguments, $neededByYourStaticMethod]],
+);
+----
+
+Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
+may change in the future with a warning or exception being thrown.
+
+== Links
+
+* link:../../available_attributes.adoc[Available Attributes]

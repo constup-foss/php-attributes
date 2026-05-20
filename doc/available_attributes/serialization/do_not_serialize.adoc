@@ -1,0 +1,99 @@
+= `#[DoNotSerialize]`
+:toc:
+:toclevels: 5
+
+== Description
+
+Use this attribute to mark a class or a class property for skipping during serialization/normalization. Can be used in
+custom serializers or normalizers.
+
+* Applicable to:
+** Classes
+** Class properties
+
+* Arguments:
+** none
+
+* Repeatable: no
+
+== Attribute Processors
+
+=== `DoNotSerializeDetector`
+
+Processor: link:../../../src/Serialization/DoNotSerialize/DoNotSerializeDetector.php[`DoNotSerializeDetector`]
+
+* `::detectForClassOrObject(string|object $classOrObject): bool` - Detects if the given class or object has the
+`DoNotSerialize` attribute.
+* `::detectForProperty(string|object $classOrObject, string $propertyName): bool` - Detects if the given property of a
+class or object has the `DoNotSerialize` attribute.
+
+==== Usage
+
+===== Basic usage on a class property
+
+Set `#[DoNotSerialize]` attribute on a property of your class.
+
+[source,php]
+----
+class MyClass {
+    #[DoNotSerialize]
+    public int $myProperty;
+}
+----
+
+In your custom serializer/normalizer use the `DoNotSerializeDetector::detectForProperty()` to detect whether the
+attribute is applied to a specific property and exclude it from your serialization/normalization result.
+
+[source,php]
+----
+$shouldBeSerialized = DoNotSerializeDetector::detectForProperty(
+    classOrObject: TargetClass::class,
+    propertyName: 'targetProperty'
+);
+----
+
+===== Basic usage on a class
+
+Set `#[DoNotSerialize]` attribute on a class.
+
+[source,php]
+----
+#[DoNotSerialize]
+class MyClass {
+    public int $myProperty;
+}
+----
+
+In your custom serializer/normalizer use the `DoNotSerializeDetector::detectForClassOrObject()` to detect whether the
+attribute is applied to the class that is used as a type of property. You can use Reflection to get the type of your
+property. If it is, you can exclude that property from your serialization/normalization result.
+
+[source,php]
+----
+$shouldBeSerialized = DoNotSerializeDetector::detectForClassOrObject(
+    classOrObject: TargetClass::class
+);
+----
+
+==== Edge cases
+
+===== Calling the processor on generic `object`
+
+Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
+always return `false`, since no attributes are applied.
+
+[source,php]
+----
+$object = (object)["targetProperty" => "someValue"];
+$shouldBeSerialized = DoNotSerializeDetector::detectForProperty(
+    classOrObject: $object,
+    propertyName: "targetProperty"
+);
+----
+
+Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
+may change in the future with a warning or exception being thrown.
+
+== Links
+
+* link:../../available_attributes.adoc[Available Attributes]

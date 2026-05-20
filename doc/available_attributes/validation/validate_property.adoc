@@ -1,0 +1,110 @@
+= `#[ValidateProperty]`
+:toc:
+:toclevels: 5
+
+== Description
+
+Use this attribute to validate the value of your property.
+
+* Applicable to:
+** Class properties
+
+* Arguments
+** `Closure $transformer` - link:https://wiki.php.net/rfc/fcc_in_const_expr[First Class Callable (PHP RFC Wiki link)].
+Note that this attribute only supports using static methods.
+
+* Repeatable: no
+
+== Attribute Processors
+
+=== `PropertyValidator`
+
+Processor: link:../../../src/Validation/ValidateProperty/PropertyValidator.php[`PropertyValidator`]
+
+`PropertyValidator` supports two flavors of validation results:
+
+* validations that return `true` on success and `false` on failure;
+* validations that are silent on success and throw an exception on failure;
+
+Methods:
+
+* `::validateWithBoolResult(object $object, string $propertyName, array $validationArguments = []): ?bool` -
+Use this method to process a property validation with a boolean result. If the attribute is not present, null is
+returned.
++
+`$validationArguments` is an associative array of additional validation arguments. Index is the name of the property the
+attribute is being applied to. Value is an array of arguments to be passed to the transformation closure after the
+property value.
+
+* `validateMethodWithVoidResult(object $object, string $propertyName, array $validationArguments = []): void` -
+Use this method to process a property validation with a void result. If the attribute is not present, nothing happens
+(validation skipped).
++
+`$validationArguments` is an associative array of additional validation arguments. Index is the name of the property the
+attribute is being applied to. Value is an array of arguments to be passed to the transformation closure after the
+property value.
+
+
+==== Usage
+
+===== Basic example
+
+Apply the attribute to a property:
+
+[source,php]
+----
+#[ValidateProperty(YourValidationClass::yourStaticMethod(...))]
+public int $yourProperty;
+----
+
+When you need to validate the value of your property, call:
+
+[source, php]
+----
+$validationResult = PropertyValidator::validateWithBoolResult(
+    object: $yourTargetObject,
+    propertyName: 'yourPropertyName',
+    validationArguments: ['yourPropertyName' => [$arrayOfArguments, $neededByYourStaticMethod]]
+);
+----
+
+or:
+
+[source,php]
+----
+try {
+    PropertyValidator::validateWithVoidResult(
+        object: $yourTargetObject,
+        propertyName: 'yourPropertyName',
+        validationArguments: ['yourPropertyName' => [$arrayOfArguments, $neededByYourStaticMethod]]
+    );
+} catch (Exception $exception) {
+    // process your validation exception here
+}
+----
+
+Remember to place property value as the first parameter of your static method.
+
+==== Edge cases
+
+===== Calling the processor on generic `object`
+
+Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
+always skip the validation, since no attributes are applied.
+
+[source,php]
+----
+$yourTargetObject = (object)["targetProperty" => "someValue"];
+$validationResult = PropertyValidator::validateWithBoolResult(
+    object: $yourTargetObject,
+    propertyName: 'yourPropertyName',
+    validationArguments: ['yourPropertyName' => [$arrayOfArguments, $neededByYourStaticMethod]]
+);
+----
+
+Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
+may change in the future with a warning or exception being thrown.
+
+== Links
+
+* link:../../available_attributes.adoc[Available Attributes]

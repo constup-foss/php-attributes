@@ -1,0 +1,44 @@
+FROM php:8.5
+
+ARG PROJECTINIT_UID
+ARG PROJECTINIT_GID
+WORKDIR /usr/src/app
+COPY . .
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git \
+        zip \
+        unzip \
+        wget \
+        dumb-init \
+        jq \
+        && \
+    rm -rf /var/lib/apt/lists/*
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions \
+        apcu \
+        intl \
+        zip \
+        gmp \
+        pcov \
+        xdebug \
+        && \
+    chmod +x /usr/bin/composer
+RUN (groupadd phpgroup -g ${PROJECTINIT_GID} || groupadd phpgroup || true) && \
+    useradd phpuser --uid ${PROJECTINIT_UID} -g ${PROJECTINIT_GID} -s '/bin/bash' --no-log-init && \
+    mkdir -p /home/phpuser && \
+    chown -R ${PROJECTINIT_UID}:${PROJECTINIT_GID} /home/phpuser
+RUN git config --global --add safe.directory /usr/src/app && \
+    (composer install || true) && \
+    chown -R ${PROJECTINIT_UID}:${PROJECTINIT_GID} /usr/src/app
+
+USER ${PROJECTINIT_UID}:${PROJECTINIT_GID}
+
+RUN git config --global --add safe.directory /usr/src/app
+
+EXPOSE 8080
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["sh", "/usr/src/app/start.sh"]

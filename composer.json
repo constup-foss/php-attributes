@@ -1,0 +1,49 @@
+{
+  "name": "constup/php-attributes",
+  "description": "A collection opf PHP attributes and their processors.",
+  "license": "MIT",
+  "readme": "README.adoc",
+  "autoload": {
+    "psr-4": {
+      "Constup\\PhpAttributes\\": "src"
+    },
+    "exclude-from-classmap": ["/tests/"]
+  },
+  "authors": [
+    {
+      "name": "Constup",
+      "role": "Project Lead"
+    }
+  ],
+  "autoload-dev": {
+    "psr-4": {
+      "Constup\\PhpAttributes\\Tests\\": "tests"
+    }
+  },
+  "require": {
+    "php": ">=8.5"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "phpunit/phpunit": "^13",
+    "fakerphp/faker": "^1.24"
+  },
+  "scripts": {
+    "csfix": "php vendor/bin/php-cs-fixer fix --verbose --config=.php-cs-fixer.dist.php",
+    "csfix-unix-ignore-env": "export PHP_CS_FIXER_IGNORE_ENV=true && php vendor/bin/php-cs-fixer fix --verbose --config=.php-cs-fixer.dist.php",
+    "csfix-windows-ignore-env": "set PHP_CS_FIXER_IGNORE_ENV=true && php vendor/bin/php-cs-fixer fix --verbose --config=.php-cs-fixer.dist.php",
+
+    "phpunit": "php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --display-deprecations",
+    "phpunit-coverage": "php -d xdebug.mode=coverage vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --coverage-html codeCoverage",
+    "phpunit-migrate-configuration": "php vendor/phpunit/phpunit/phpunit --migrate-configuration"
+  },
+  "scripts-descriptions": {
+    "csfix": "Fix all project's files with PHP CS Fixer.",
+    "csfix-unix-ignore-env": "Fix all project's files with PHP CS Fixer on Unix systems. Ignore environment (PHP version) requirements of PHP CS Fixer.",
+    "csfix-windows-ignore-env": "Fix all project's files with PHP CS Fixer on Windows systems. Ignore environment (PHP version) requirements of PHP CS Fixer.",
+
+    "phpunit": "Run PHP Unit on the whole project. PHP Unit must be installed as Composer dependency.",
+    "phpunit-coverage": "Run PHP Unit on the whole project and generate a code coverage report. PHP Unit must be installed as Composer dependency.",
+    "phpunit-migrate-configuration": "Migrate PHPUnit configuration to the new format. PHP Unit must be installed as Composer dependency."
+  }
+}

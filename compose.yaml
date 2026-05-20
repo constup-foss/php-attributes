@@ -1,0 +1,16 @@
+services:
+    php_attributes_app:
+        container_name: php_attributes_app
+        build:
+            args:
+                PROJECTINIT_UID: ${PROJECTINIT_UID}
+                PROJECTINIT_GID: ${PROJECTINIT_GID}
+            context: ./
+            dockerfile: Dockerfile
+        image: php_attributes_app
+        restart: "unless-stopped"
+        ports:
+            - "12480:8080"
+        volumes:
+            - ./:/usr/src/app
+            - ./projectinit_docker/dev/php/usr/local/etc/php/conf.d/zz_php.ini:/usr/local/etc/php/conf.d/zz_php.ini

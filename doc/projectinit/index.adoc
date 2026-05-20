@@ -1,0 +1,119 @@
+= ProjectInit.sh README
+:toc:
+:toclevels: 5
+
+== Introduction
+
+This project has been set up by link:https://projectinit.sh[ProjectInit.sh]. This readme file contains some useful
+instructions on how to use and modify the project.
+
+== Environments
+
+This is a completely dockerized development environment for a composer library. You don't need a local PHP installation
+to start working.
+
+== Setting up the project
+
+=== Using Projectinit CLI
+
+Regardless of whether you have created a new project yourself or have cloned an existing project that was created using
+ProjectInit, simply run:
+
+[source, shell]
+----
+bash projectinit_cli.sh docker_compose_up
+----
+
+=== General guide
+
+[IMPORTANT]
+====
+Read this section only if you are not using ProjectInit CLI or want to know more about manually setting up the project.
+====
+
+Setting up a new project does not require any additional manual configuration.
+
+Transferring a project to another computer (ex. team members), requires a couple of steps:
+
+* clone your project's repository
+* create `.env.docker` file in your project's root directory and add the following values:
+** `PROJECTINIT_UID` - user ID. Can be obtained by running `id -u` on the host machine.
+** `PROJECTINIT_GID` - group ID. Can be obtained by running `id -g` on the host machine.
+* check if your project uses Docker Compose secrets (in link:../../compose.yaml[`compose.yaml`]), create and fill the
+required secrets files
+
+=== Running the project on local
+
+To run the local development environment, run:
+
+[source, shell]
+----
+docker compose --env-file .env.docker up
+----
+
+or use `projectinit_cli.sh` in your project's root directory:
+[source, shell]
+----
+bash projectinit_cli.sh docker_compose_up
+----
+
+== Installing additional PHP extensions
+
+PHP extensions are installed using https://github.com/mlocati/docker-php-extension-installer. ProjectInit.sh has
+installed only a minimum set of required extensions for the project, based on your choices during installation.
+
+To see the list of available PHP extensions, visit https://github.com/mlocati/docker-php-extension-installer.
+
+To install additional PHP extensions, add them to the `Dockerfile` as a parameter of `install-php-extensions`
+command. For more information and troubleshooting, refer to the PHP extension installer's documentation.
+
+== Users and file ownership
+
+=== If you are using ProjectInit CLI
+
+When you bring the Docker container up using ProjectInit CLI with:
+
+[source, shell]
+----
+bash projectinit_cli.sh docker_compose_up
+----
+
+ProjectInit CLI will automatically create `.env.docker` file and populate it with required user and group ids. You don't
+have to do anything manually.
+
+If you are not using ProjectInit CLI, refer to the 'General guide' below.
+
+=== General guide
+
+link:https://docs.docker.com/compose/how-tos/environment-variables/variable-interpolation/[Environment variable interpolation]
+is used to pass host's user and group ID to the container to set up a user inside the container. This enables
+you to edit the source files on your host, like you would normally do when working on a project.
+
+ProjectInit adds user and group IDs to link:../../.env.docker[`.env.docker`] file during project creation. It also adds
+the `.env.docker` file to `.gitignore`, because these IDs can be different on other computers that are cloning your
+project's repository (ore servers where you deploy the app).
+
+The environment variables are:
+
+* `PROJECTINIT_UID` - user ID. Can be obtained by running `id -u` on the host machine.
+* `PROJECTINIT_GID` - group ID. Can be obtained by running `id -g` on the host machine.
+
+You don't have to do anything on the computer where you've created the project with ProjectInit, but you do need to have
+these environment variables set up on other computers where your project is running. You can do that in two ways:
+
+* Adding the `.env.docker` file with these environment variables;
+* Adding the environment variables directly into your host OS;
+
+== Globally available container software
+
+Docker containers have the following globally available software:
+
+- Composer
+- Git - required for installing private Composer packages from Git repositories
+- Zip/Unzip - required if you want to use zip PHP extension
+- wget - generally useful to have for various download operations. Curl should be included in PHP's default docker
+image
+- dumb-init - a simple process supervisor and init system designed to run as PID 1 inside minimal container
+environments. For more information and why it is good to have dumb-init as an entry point in Docker containers, see
+https://github.com/Yelp/dumb-init
+- jq - JSON processor utility
