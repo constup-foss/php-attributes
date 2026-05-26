@@ -4,7 +4,6 @@
 
 image:https://img.shields.io/badge/PHP-8.5-blue[Static Badge]
 image:https://img.shields.io/badge/License-MIT-green[Static Badge]
-image:https://img.shields.io/github/downloads/constup-foss/php-attributes/total[GitHub Downloads (all assets, all releases)]
 image:https://img.shields.io/packagist/dt/constup-foss/php-attributes[Packagist Downloads]
 
 == Description

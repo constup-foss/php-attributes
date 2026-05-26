@@ -29,11 +29,11 @@ arguments:
 
 * `::transform(mixed $propertyValue, string $className, string $propertyName, array $transformationArguments = []): mixed`
 +
-Use it when you have a class name and property name available when calling.
+Use it when you have a property value, class name and property name available when calling.
 * `::transformFromObject(object $object, string $propertyName, array $transformationArguments = []): mixed`
 +
 Use it when you have an object and property name when calling.
-* `::transformReflectionProperty(object $object, ReflectionProperty $reflectionProperty, array $transformationArguments = [],): mixed`
+* `::transformReflectionProperty(object $object, ReflectionProperty $reflectionProperty, array $transformationArguments = []): mixed`
 +
 Use it when you have an object and a reflection property when calling.
 
