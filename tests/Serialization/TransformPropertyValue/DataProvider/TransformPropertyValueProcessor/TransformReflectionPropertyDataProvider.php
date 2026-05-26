@@ -6,7 +6,6 @@ namespace Constup\PhpAttributes\Tests\Serialization\TransformPropertyValue\DataP
 
 use Constup\PhpAttributes\Exceptions\Exceptions\TransformPropertyValueException;
 use Constup\PhpAttributes\Tests\Serialization\TransformPropertyValue\TestSamples\TransformPropertyValueSample;
-use ReflectionException;
 
 readonly class TransformReflectionPropertyDataProvider
 {
@@ -52,13 +51,6 @@ readonly class TransformReflectionPropertyDataProvider
     public static function provide_ErrorFlow(): array
     {
         return [
-            'Invalid property name.' => [
-                'object' => new TransformPropertyValueSample(),
-                'propertyName' => 'invalidPropertyName',
-                'transformationArguments' => [],
-                'expectedException' => ReflectionException::class,
-                'expectedExceptionCode' => null,
-            ],
             'Attribute is present. Transformation arguments are empty.' => [
                 'object' => new TransformPropertyValueSample(),
                 'propertyName' => 'applicableProperty',

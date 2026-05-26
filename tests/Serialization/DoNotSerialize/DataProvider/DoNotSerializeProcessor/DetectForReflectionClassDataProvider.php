@@ -2,11 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeDetector;
+namespace Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeProcessor;
 
 use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\TestSamples\DoNotSerializeClass;
 use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\TestSamples\SerializeClass;
-use ReflectionException;
 use stdClass;
 
 readonly class DetectForReflectionClassDataProvider
@@ -33,16 +32,6 @@ readonly class DetectForReflectionClassDataProvider
             'Generic object.' => [
                 'classOrObject' => new stdClass(),
                 'expected' => false,
-            ],
-        ];
-    }
-
-    public static function provide_ErrorFlow(): array
-    {
-        return [
-            'Invalid class name.' => [
-                'classOrObject' => '\InvalidClass',
-                'expectedException' => ReflectionException::class,
             ],
         ];
     }

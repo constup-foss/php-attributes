@@ -11,7 +11,7 @@ use ReflectionProperty;
 /**
  * @see ../../../doc/available_attributes/serialization/do_not_serialize.adoc
  */
-readonly class DoNotSerializeDetector
+readonly class DoNotSerializeProcessor
 {
     /**
      * Detects if the given class or object has the DoNotSerialize attribute.

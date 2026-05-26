@@ -4,13 +4,14 @@ declare(strict_types = 1);
 
 namespace Constup\PhpAttributes\Tests\Validation\ValidateProperty;
 
-use Constup\PhpAttributes\Tests\Validation\ValidateProperty\PropertyValidator\DataProvider\ValidateWithBoolResultDataProvider;
-use Constup\PhpAttributes\Tests\Validation\ValidateProperty\PropertyValidator\DataProvider\ValidateWithVoidResultDataProvider;
-use Constup\PhpAttributes\Validation\ValidateProperty\PropertyValidator;
+use Constup\PhpAttributes\Tests\Validation\ValidateProperty\ValidatePropertyProcessor\DataProvider\ValidateWithBoolResultDataProvider;
+use Constup\PhpAttributes\Tests\Validation\ValidateProperty\ValidatePropertyProcessor\DataProvider\ValidateWithVoidResultDataProvider;
+use Constup\PhpAttributes\Validation\ValidateProperty\ValidatePropertyProcessor;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
-class PropertyValidatorTest extends TestCase
+class ValidatePropertyProcessorTest extends TestCase
 {
     #[DataProviderExternal(
         ValidateWithBoolResultDataProvider::class,
@@ -22,9 +23,10 @@ class PropertyValidatorTest extends TestCase
         array $validationArguments,
         ?bool $expected
     ): void {
-        $result = PropertyValidator::validateWithBoolResult(
+        $reflectionProperty = new ReflectionProperty($object, $propertyName);
+        $result = ValidatePropertyProcessor::validateWithBoolResult(
             $object,
-            $propertyName,
+            $reflectionProperty,
             $validationArguments,
         );
 
@@ -45,13 +47,18 @@ class PropertyValidatorTest extends TestCase
         object $object,
         string $propertyName,
         array $validationArguments,
-        string $expectedException
+        string $expectedException,
+        ?int $expectedExceptionCode
     ): void {
         $this->expectException($expectedException);
+        if ($expectedExceptionCode !== null) {
+            $this->expectExceptionCode($expectedExceptionCode);
+        }
 
-        PropertyValidator::validateWithBoolResult(
+        $reflectionProperty = new ReflectionProperty($object, $propertyName);
+        ValidatePropertyProcessor::validateWithBoolResult(
             $object,
-            $propertyName,
+            $reflectionProperty,
             $validationArguments,
         );
     }
@@ -72,9 +79,11 @@ class PropertyValidatorTest extends TestCase
             $this->expectException($expectedException);
         }
 
-        PropertyValidator::validateWithVoidResult(
+        $reflectionProperty = new ReflectionProperty($object, $propertyName);
+
+        ValidatePropertyProcessor::validateWithVoidResult(
             $object,
-            $propertyName,
+            $reflectionProperty,
             $validationArguments,
         );
     }
@@ -87,13 +96,19 @@ class PropertyValidatorTest extends TestCase
         object $object,
         string $propertyName,
         array $validationArguments,
-        string $expectedException
+        string $expectedException,
+        ?int $expectedExceptionCode,
     ): void {
         $this->expectException($expectedException);
+        if ($expectedExceptionCode !== null) {
+            $this->expectExceptionCode($expectedExceptionCode);
+        }
 
-        PropertyValidator::validateWithVoidResult(
+        $reflectionProperty = new ReflectionProperty($object, $propertyName);
+
+        ValidatePropertyProcessor::validateWithVoidResult(
             $object,
-            $propertyName,
+            $reflectionProperty,
             $validationArguments,
         );
     }

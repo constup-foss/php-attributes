@@ -8,6 +8,8 @@ use Attribute;
 use Closure;
 
 /**
+ * Validate property value.
+ *
  * @see ../../../doc/available_attributes/validation/validate_property.adoc
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]

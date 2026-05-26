@@ -2,10 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeDetector;
+namespace Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeProcessor;
 
 use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\TestSamples\DoNotSerializeClass;
-use ReflectionException;
 
 readonly class DetectForReflectionPropertyDataProvider
 {
@@ -36,22 +35,6 @@ readonly class DetectForReflectionPropertyDataProvider
                 'classOrObject' => (object)['targetProperty' => 'irrelevantValue'],
                 'propertyName' => 'targetProperty',
                 'expected' => false,
-            ],
-        ];
-    }
-
-    public static function provide_ErrorFlow(): array
-    {
-        return [
-            'Invalid class name.' => [
-                'classOrObject' => '\InvalidClass',
-                'propertyName' => 'serialize',
-                'expectedException' => ReflectionException::class,
-            ],
-            'Invalid property name.' => [
-                'classOrObject' => DoNotSerializeClass::class,
-                'propertyName' => 'invalidPropertyName',
-                'expectedException' => ReflectionException::class,
             ],
         ];
     }

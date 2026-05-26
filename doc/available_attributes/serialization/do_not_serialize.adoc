@@ -18,9 +18,9 @@ custom serializers or normalizers.
 
 == Attribute Processors
 
-=== `DoNotSerializeDetector`
+=== `DoNotSerializeProcessor`
 
-Processor: link:../../../src/Serialization/DoNotSerialize/DoNotSerializeDetector.php[`DoNotSerializeDetector`]
+Processor: link:../../../src/Serialization/DoNotSerialize/DoNotSerializeProcessor.php[`DoNotSerializeProcessor`]
 
 * `::detectForReflectionClass(ReflectionClass $reflectionClass): bool`
 +
