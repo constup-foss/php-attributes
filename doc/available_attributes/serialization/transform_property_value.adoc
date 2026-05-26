@@ -21,7 +21,7 @@ Note that this attribute only supports using static methods.
 
 Processor: link:../../../src/Serialization/TransformPropertyValue/TransformPropertyValueProcessor.php[`TransformPropertyValueProcessor`]
 
-=== Methods
+==== Methods
 
 The following methods return a transformed version of `$propertyValue` by running the closure defined in the attribute.
 If the attribute is not present, the original `$propertyValue` is returned. The only difference between them is their
