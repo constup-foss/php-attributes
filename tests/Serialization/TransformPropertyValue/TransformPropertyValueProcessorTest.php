@@ -9,6 +9,7 @@ use Constup\PhpAttributes\Tests\Serialization\TransformPropertyValue\DataProvide
 use Constup\PhpAttributes\Tests\Serialization\TransformPropertyValue\DataProvider\TransformPropertyValueProcessor\TransformFromObjectDataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 class TransformPropertyValueProcessorTest extends TestCase
 {
@@ -38,13 +39,19 @@ class TransformPropertyValueProcessorTest extends TestCase
     public function test_transformFromObject_ErrorFlow(
         object $object,
         string $propertyName,
-        string $expectedException
+        array $transformationArguments,
+        string $expectedException,
+        ?int $expectedExceptionCode
     ): void {
         $this->expectException($expectedException);
+        if ($expectedExceptionCode !== null) {
+            $this->expectExceptionCode($expectedExceptionCode);
+        }
 
         TransformPropertyValueProcessor::transformFromObject(
             $object,
             $propertyName,
+            $transformationArguments,
         );
     }
 
@@ -77,14 +84,66 @@ class TransformPropertyValueProcessorTest extends TestCase
         mixed $propertyValue,
         string $className,
         string $propertyName,
-        string $expectedException
+        array $transformationArguments,
+        string $expectedException,
+        ?int $expectedExceptionCode
     ): void {
         $this->expectException($expectedException);
+        if ($expectedExceptionCode !== null) {
+            $this->expectExceptionCode($expectedExceptionCode);
+        }
 
         TransformPropertyValueProcessor::transform(
             $propertyValue,
             $className,
             $propertyName,
+            $transformationArguments,
+        );
+    }
+
+    #[DataProviderExternal(
+        TransformFromObjectDataProvider::class,
+        'provide_HappyFlow'
+    )]
+    public function test_transformReflectionProperty_HappyFlow(
+        object $object,
+        string $propertyName,
+        array $transformationArguments,
+        mixed $expected
+    ): void {
+        $reflectionProperty = new ReflectionProperty($object, $propertyName);
+
+        $result = TransformPropertyValueProcessor::transformReflectionProperty(
+            $object,
+            $reflectionProperty,
+            $transformationArguments,
+        );
+
+        $this->assertSame($expected, $result);
+    }
+
+    #[DataProviderExternal(
+        TransformFromObjectDataProvider::class,
+        'provide_ErrorFlow'
+    )]
+    public function test_transformReflectionProperty_ErrorFlow(
+        object $object,
+        string $propertyName,
+        array $transformationArguments,
+        string $expectedException,
+        ?int $expectedExceptionCode
+    ): void {
+        $this->expectException($expectedException);
+        if ($expectedExceptionCode !== null) {
+            $this->expectExceptionCode($expectedExceptionCode);
+        }
+
+        $reflectionProperty = new ReflectionProperty($object, $propertyName);
+
+        TransformPropertyValueProcessor::transformReflectionProperty(
+            $object,
+            $reflectionProperty,
+            $transformationArguments,
         );
     }
 }

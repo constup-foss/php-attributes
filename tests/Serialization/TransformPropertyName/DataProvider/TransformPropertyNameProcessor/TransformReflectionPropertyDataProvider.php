@@ -6,39 +6,26 @@ namespace Constup\PhpAttributes\Tests\Serialization\TransformPropertyName\DataPr
 
 use Constup\PhpAttributes\Exceptions\Exceptions\TransformPropertyNameException;
 use Constup\PhpAttributes\Tests\Serialization\TransformPropertyName\TestSamples\TransformPropertyNameSample;
-use ReflectionException;
 
-readonly class TransformDataProvider
+readonly class TransformReflectionPropertyDataProvider
 {
     public static function provide_HappyFlow(): array
     {
         return [
-            'Attribute is present in a class.' => [
-                'classOrObject' => TransformPropertyNameSample::class,
-                'propertyName' => 'applicableProperty',
-                'transformationArguments' => ['applicableProperty' => ['somePrefix_']],
-                'expected' => 'somePrefix_applicableProperty',
-            ],
-            'Attribute is not present in a class.' => [
-                'classOrObject' => TransformPropertyNameSample::class,
-                'propertyName' => 'notApplicableProperty',
-                'transformationArguments' => [],
-                'expected' => 'notApplicableProperty',
-            ],
             'Attribute is present in an object.' => [
-                'classOrObject' => new TransformPropertyNameSample(),
+                'object' => new TransformPropertyNameSample(),
                 'propertyName' => 'applicableProperty',
                 'transformationArguments' => ['applicableProperty' => ['somePrefix_']],
                 'expected' => 'somePrefix_applicableProperty',
             ],
             'Attribute is not present in an object.' => [
-                'classOrObject' => new TransformPropertyNameSample(),
+                'object' => new TransformPropertyNameSample(),
                 'propertyName' => 'notApplicableProperty',
                 'transformationArguments' => [],
                 'expected' => 'notApplicableProperty',
             ],
             'Generic object.' => [
-                'classOrObject' => (object)['randomPropertyName' => 'irrelevantValue'],
+                'object' => (object)['randomPropertyName' => 'irrelevantValue'],
                 'propertyName' => 'randomPropertyName',
                 'transformationArguments' => [],
                 'expected' => 'randomPropertyName',
@@ -49,29 +36,15 @@ readonly class TransformDataProvider
     public static function provide_ErrorFlow(): array
     {
         return [
-            'Invalid class name.' => [
-                'classOrObject' => '\InvalidClass',
-                'propertyName' => 'irrelevantMethodName',
-                'transformationArguments' => [],
-                'expectedException' => ReflectionException::class,
-                'expectedExceptionCode' => null,
-            ],
-            'Invalid property name.' => [
-                'classOrObject' => TransformPropertyNameSample::class,
-                'propertyName' => 'invalidPropertyName',
-                'transformationArguments' => [],
-                'expectedException' => ReflectionException::class,
-                'expectedExceptionCode' => null,
-            ],
             'Attribute is present. Transformation arguments are empty.' => [
-                'classOrObject' => TransformPropertyNameSample::class,
+                'object' => new TransformPropertyNameSample(),
                 'propertyName' => 'applicableProperty',
                 'transformationArguments' => [],
                 'expectedException' => TransformPropertyNameException::class,
                 'expectedExceptionCode' => 1000,
             ],
             'Attribute is present. Transformation arguments do not contain property name.' => [
-                'classOrObject' => TransformPropertyNameSample::class,
+                'object' => new TransformPropertyNameSample(),
                 'propertyName' => 'applicableProperty',
                 'transformationArguments' => ['notApplicableProperty' => ['somePrefix_']],
                 'expectedException' => TransformPropertyNameException::class,

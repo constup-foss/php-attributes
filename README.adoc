@@ -48,6 +48,10 @@ composer require constup-foss/php-attributes
 More detailed list of available attributes, their processors and links to individual documentation pages is available
 here: link:doc/available_attributes.adoc[Available attributes]
 
+== Changelog
+
+Changelog is available on a separate page: link:CHANGELOG.adoc[]
+
 == License
 
 MIT License

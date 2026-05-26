@@ -21,31 +21,29 @@ Note that this attribute only supports using static methods.
 
 Processor: link:../../../src/Serialization/TransformPropertyValue/TransformPropertyValueProcessor.php[`TransformPropertyValueProcessor`]
 
-Methods:
+=== Methods
 
-* `::transform(mixed $propertyValue, string $className, string $propertyName,
-array $transformationArguments = []): mixed` - Returns a transformed version of `$propertyValue` by running the closure
-defined in the attribute. If the attribute is not present, the original `$propertyValue` is returned.
+The following methods return a transformed version of `$propertyValue` by running the closure defined in the attribute.
+If the attribute is not present, the original `$propertyValue` is returned. The only difference between them is their
+arguments:
+
+* `::transform(mixed $propertyValue, string $className, string $propertyName, array $transformationArguments = []): mixed`
 +
+Use it when you have a class name and property name available when calling.
+* `::transformFromObject(object $object, string $propertyName, array $transformationArguments = []): mixed`
++
+Use it when you have an object and property name when calling.
+* `::transformReflectionProperty(object $object, ReflectionProperty $reflectionProperty, array $transformationArguments = [],): mixed`
++
+Use it when you have an object and a reflection property when calling.
+
 Note that the closure is run with the `$propertyValue` as the first argument, followed by `$transformationArguments`.
 This effectively means that your static method that does the transformation must have the property value as its first
 argument.
-+
-`$transformationArguments` is an associative array of additional transformation arguments. Index is the name of the property
-the attribute is being applied to. Value is an array of arguments to be passed to the transformation closure after the
-property value.
 
-* `::transformFromObject(object $object, string $propertyName, array $transformationArguments = []): mixed` -
-Returns a transformed version of property's value by running the `Closure $transformer`. If the attribute is not
-present, the original property value is returned.
-+
-Note that the closure is run with the property value as the first argument, followed by `$transformationArguments`. This
-effectively means that your static method that does the transformation must have the property value as its first
-argument.
-+
-`$transformationArguments` is an associative array of additional transformation arguments. Index is the name of the property
-the attribute is being applied to. Value is an array of arguments to be passed to the transformation closure after the
-property value.
+`$transformationArguments` is an associative array of additional transformation arguments. Index is the name of the
+property the attribute is being applied to. Value is an array of arguments to be passed to the transformation closure
+after the property value. If the property name is not present as the array key, but is expected, an exception is thrown.
 
 ==== Usage
 

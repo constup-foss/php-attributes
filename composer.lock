@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b33fb952835109ec12e1a2b8ea4b145c",
-    "packages": [],
+    "content-hash": "5d844165251b15dda871fea646d149e4",
+    "packages": [
+        {
+            "name": "constup-foss/php-exerr",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/constup-foss/php-exerr.git",
+                "reference": "ac932d9d8e52ac84844808d5b1ff053201f625a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/constup-foss/php-exerr/zipball/ac932d9d8e52ac84844808d5b1ff053201f625a2",
+                "reference": "ac932d9d8e52ac84844808d5b1ff053201f625a2",
+                "shasum": ""
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpunit/phpunit": "^13"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ConstupFoss\\PhpExerr\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nikola Stojiljković",
+                    "role": "Project Lead"
+                }
+            ],
+            "description": "PHP errors and exceptions.",
+            "support": {
+                "issues": "https://github.com/constup-foss/php-exerr/issues",
+                "source": "https://github.com/constup-foss/php-exerr/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/puew3hvwvp",
+                    "type": "buymeacoffee"
+                },
+                {
+                    "url": "https://www.patreon.com/c/NikolaStojiljkovic",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-05-25T21:34:12+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "clue/ndjson-react",
@@ -4595,7 +4647,9 @@
     "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {},
+    "platform": {
+        "php": ">=8.5"
+    },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
 }
