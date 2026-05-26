@@ -1,0 +1,102 @@
+= AttributeWithNoArgumentsProcessor
+:toc:
+:toclevels: 5
+
+== Introduction
+
+Common attribute processors can be used directly to process attributes of a specific structure (the number and type of
+arguments that an Attribute has). Many concrete Attribute processors in this library are just extensions of the common 
+ones.
+
+== `AttributeWithNoArgumentsProcessor`
+
+Processor: link:../../../src/Common/AttributeWithNoArgumentsProcessor.php[`AttributeWithNoArgumentsProcessor`]
+
+=== Methods
+
+* `::detectForClassOrObject(string|object $classOrObject, string $attribute$Fqn): bool`
++
+Detects if the given class or object has the `$attributeFqn` attribute.
+
+* `::detectForProperty(string|object $classOrObject, string $propertyName): bool`
++
+Detects if the given property of a class or object has the `$attributeFqn` attribute.
+
+=== Usage
+
+==== Basic usage on a class property
+
+[NOTE]
+====
+We are going to use `#[DoNotSerialize]` attribute to demonstrate.
+====
+
+Set `#[DoNotSerialize]` attribute on a property of your class.
+
+[source,php]
+----
+class MyClass {
+    #[DoNotSerialize]
+    public int $myProperty;
+}
+----
+
+In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForProperty()` to detect whether
+the attribute is applied to a specific property and exclude it from your serialization/normalization result.
+
+[source,php]
+----
+$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForProperty(
+    classOrObject: TargetClass::class,
+    propertyName: 'targetProperty',
+    attributeFqn: DoNotSerialize::class
+);
+----
+
+==== Basic usage on a class
+
+Set `#[DoNotSerialize]` attribute on a class.
+
+[source,php]
+----
+#[DoNotSerialize]
+class MyClass {
+    public int $myProperty;
+}
+----
+
+In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForClassOrObject()` to detect
+whether the attribute is applied to the class that is used as a type of property. You can use Reflection to get the type
+of your property. If it is, you can exclude that property from your serialization/normalization result.
+
+[source,php]
+----
+$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForClassOrObject(
+    classOrObject: TargetClass::class,
+    attrbuteFqn: DoNotSerialize::class
+);
+----
+
+=== Edge cases
+
+==== Calling the processor on generic `object`
+
+Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
+always return `false`, since no attributes are applied.
+
+[source,php]
+----
+$object = (object)["targetProperty" => "someValue"];
+$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForProperty(
+    classOrObject: $object,
+    propertyName: "targetProperty"
+    attributeFqn: DoNotSerialize::class
+);
+----
+
+Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
+may change in the future with a warning or exception being thrown.
+
+== Links
+
+* link:../../available_attributes.adoc[Available Attributes]
