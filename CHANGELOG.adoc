@@ -1,0 +1,45 @@
+= Changelog
+:toc:
+:toclevels: 5
+
+== 1.1.
+
+=== 1.1.0
+
+*Features:*
+
+* Added `transformReflectionProperty` to `TransformPropertyNameProcessor`;
+* Added `transformReflectionProperty` to `TransformPropertyValueProcessor`;
+* Library is now using https://github.com/constup-foss/php-exerr[constup-foss/php-exerr] for exceptions;
+
+*Fixes:*
+
+* Attribute processors that are using FCC transformation arguments are now throwing exceptions when the property name
+is missing from array keys, but is expected.
+
+*Documentation:*
+
+* Added documentation for new features;
+* Attribute processor documentation is now easier to read;
+
+== 1.0
+
+=== 1.0.3
+
+* GitHub configuration;
+
+=== 1.0.2
+
+* `composer.json` fixes;
+
+=== 1.0.1
+
+* Documentation changes;
+
+=== 1.0.0
+
+*Attributes:*
+
+* `#[DoNotSerialize]`;
+* `#[TransformPropertyName]`;
+* `#[TransformPropertyValue]`;

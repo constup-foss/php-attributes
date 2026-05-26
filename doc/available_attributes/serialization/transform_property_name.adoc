@@ -21,20 +21,25 @@ Note that this attribute only supports using static methods.
 
 Processor: link:../../../src/Serialization/TransformPropertyName/TransformPropertyNameProcessor.php[`TransformPropertyNameProcessor`]
 
-Methods:
+=== Methods
 
-* `::transform(string|object $classOrObject, string $propertyName, array $transformationArguments = []): string` -
-Returns a transformed version of property's name by running the `Closure $transformer`.
-If the attribute is not present, the original `$propertyName` is returned.
+The following methods return a transformed version of property's name by running the `Closure $transformer`. If the
+attribute is not present, the original `$propertyName` is returned. The only difference between them is their arguments.
+
+* `::transform(string|object $classOrObject, string $propertyName, array $transformationArguments = []): string`
 +
+Use it when you have a class or object and a property name when calling.
+* `::transformReflectionProperty(ReflectionProperty $reflectionProperty, array $transformationArguments = []): string`
++
+Use it when you have reflection property when calling.
+
 Note that the closure is run with the `$propertyName` as the first argument, followed by `$transformationArguments`.
 This effectively means that your static method that does the transformation must have the property name as its first
 argument.
-+
+
 `$transformationArguments` is an associative array of additional transformation arguments. Index is the name of the
 property the attribute is being applied to. Value is an array of arguments to be passed to the transformation closure
-after the property name.
-
+after the property name. If the property name is not present as the array key, but is expected, an exception is thrown.
 
 ==== Usage
 
