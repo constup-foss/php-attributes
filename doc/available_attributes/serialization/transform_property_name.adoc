@@ -21,7 +21,7 @@ Note that this attribute only supports using static methods.
 
 Processor: link:../../../src/Serialization/TransformPropertyName/TransformPropertyNameProcessor.php[`TransformPropertyNameProcessor`]
 
-=== Methods
+==== Methods
 
 The following methods return a transformed version of property's name by running the `Closure $transformer`. If the
 attribute is not present, the original `$propertyName` is returned. The only difference between them is their arguments.

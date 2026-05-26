@@ -1,0 +1,15 @@
+= Common attribute processors
+:toc:
+:toclevels: 5
+
+== Introduction
+
+Common attribute processors can be used directly to process attributes of a specific structure (the number and type of
+arguments that an Attribute has). Many concrete Attribute processors in this library are just extensions of the common
+ones.
+
+== Available processors
+
+* link:common_attribute_processors/attribute_with_no_arguments_processor.adoc[`AttributeWithNoArgumentsProcessor`]
++
+Contains methods that can be applied on attributes that have no arguments.

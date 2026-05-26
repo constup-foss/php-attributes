@@ -4,12 +4,12 @@
 
 image:https://img.shields.io/badge/PHP-8.5-blue[Static Badge]
 image:https://img.shields.io/badge/License-MIT-green[Static Badge]
-image:https://img.shields.io/github/downloads/constup-foss/php-attributes/total[GitHub Downloads (all assets, all releases)]
 image:https://img.shields.io/packagist/dt/constup-foss/php-attributes[Packagist Downloads]
 
 == Description
 
-A collection of PHP attributes and their processors.
+A collection of PHP attributes and their processors. Includes reusable common processors that can be used on any
+attribute, even your own.
 
 The main idea behind several attributes in this library is to leverage First Class Callables in static expressions
 (link:https://wiki.php.net/rfc/fcc_in_const_expr[PHP RFC Wiki]) introduced in PHP 8.5. FCCs allow you to have attributes
@@ -47,6 +47,23 @@ composer require constup-foss/php-attributes
 
 More detailed list of available attributes, their processors and links to individual documentation pages is available
 here: link:doc/available_attributes.adoc[Available attributes]
+
+== Common attribute processors
+
+Common attribute processors implemented in this library can be used directly to process attributes of a specific
+structure (the number and type of arguments that an Attribute has). Many concrete Attribute processors in this library
+are just extensions of the common ones.
+
+[IMPORTANT]
+====
+Common attribute processors can be used on *any* attribute that satisfies supported attribute structure. They can be
+used on attributes that are not part of this library.
+
+You are free to use them on third-party attributes or even on your own attributes.
+====
+
+The list of available common attribute processors is avaliable on a separate page:
+link:doc/common_attribute_processors.adoc[Common attribute processors].
 
 == Changelog
 
