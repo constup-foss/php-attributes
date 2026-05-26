@@ -7,7 +7,7 @@ namespace Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\
 use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\TestSamples\DoNotSerializeClass;
 use ReflectionException;
 
-readonly class DetectForPropertyDataProvider
+readonly class DetectForReflectionPropertyDataProvider
 {
     public static function provide_HappyFlow(): array
     {

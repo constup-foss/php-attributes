@@ -9,7 +9,7 @@ use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\TestSamples\Seriali
 use ReflectionException;
 use stdClass;
 
-readonly class DetectForClassOrObjectDataProvider
+readonly class DetectForReflectionClassDataProvider
 {
     public static function provide_HappyFlow(): array
     {

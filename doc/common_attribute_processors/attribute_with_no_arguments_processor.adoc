@@ -18,18 +18,9 @@ Processor: link:../../../src/Common/AttributeWithNoArgumentsProcessor.php[`Attri
 +
 Detects if the given reflection class has the `$attributeFqn` attribute.
 
-* `::detectForClassOrObject(string|object $classOrObject, string $attribute$Fqn): bool`
-+
-Detects if the given class or object has the `$attributeFqn` attribute. Uses `detectForReflectionClass` internally.
-
 * `::detectForReflectionProperty(ReflectionProperty $reflectionProperty, string $attributeFqn): bool`
 +
 Detects if the given reflection property has the `$attributeFqn` attribute.
-
-* `::detectForProperty(string|object $classOrObject, string $propertyName): bool`
-+
-Detects if the given property of a class or object has the `$attributeFqn` attribute. Uses
-`detectForReflectionProperty` internally.
 
 === Usage
 
@@ -50,14 +41,13 @@ class MyClass {
 }
 ----
 
-In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForProperty()` to detect whether
+In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForReflectionProperty()` to detect whether
 the attribute is applied to a specific property and exclude it from your serialization/normalization result.
 
 [source,php]
 ----
-$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForProperty(
-    classOrObject: TargetClass::class,
-    propertyName: 'targetProperty',
+$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForReflectionProperty(
+    reflectionProperty: new \ReflectionProperty(TargetClass::class, 'targetProperty'),
     attributeFqn: DoNotSerialize::class
 );
 ----
@@ -74,14 +64,14 @@ class MyClass {
 }
 ----
 
-In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForClassOrObject()` to detect
+In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForreflectionClass()` to detect
 whether the attribute is applied to the class that is used as a type of property. You can use Reflection to get the type
 of your property. If it is, you can exclude that property from your serialization/normalization result.
 
 [source,php]
 ----
-$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForClassOrObject(
-    classOrObject: TargetClass::class,
+$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForReflectionClass(
+    reflectionClass: new \ReflectionClass(TargetClass::class),
     attrbuteFqn: DoNotSerialize::class
 );
 ----
@@ -96,9 +86,8 @@ always return `false`, since no attributes are applied.
 [source,php]
 ----
 $object = (object)["targetProperty" => "someValue"];
-$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForProperty(
-    classOrObject: $object,
-    propertyName: "targetProperty"
+$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForReflectionProperty(
+    reflectionProperty: new \ReflectionProperty($object, 'targetProperty'),
     attributeFqn: DoNotSerialize::class
 );
 ----

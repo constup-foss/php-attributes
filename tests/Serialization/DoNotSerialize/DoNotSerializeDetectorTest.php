@@ -5,64 +5,70 @@ declare(strict_types = 1);
 namespace Constup\PhpAttributes\Tests\Serialization\DoNotSerialize;
 
 use Constup\PhpAttributes\Serialization\DoNotSerialize\DoNotSerializeDetector;
-use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeDetector\DetectForClassOrObjectDataProvider;
-use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeDetector\DetectForPropertyDataProvider;
+use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeDetector\DetectForReflectionClassDataProvider;
+use Constup\PhpAttributes\Tests\Serialization\DoNotSerialize\DataProvider\DoNotSerializeDetector\DetectForReflectionPropertyDataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionProperty;
 
 class DoNotSerializeDetectorTest extends TestCase
 {
     #[DataProviderExternal(
-        DetectForClassOrObjectDataProvider::class,
+        DetectForReflectionClassDataProvider::class,
         'provide_HappyFlow'
     )]
-    public function test_detectForClassOrObject_HappyFlow(
+    public function test_detectForReflectionClass_HappyFlow(
         string|object $classOrObject,
         bool $expected
     ): void {
-        $result = DoNotSerializeDetector::detectForClassOrObject($classOrObject);
+        $reflectionClass = new ReflectionClass($classOrObject);
+        $result = DoNotSerializeDetector::detectForReflectionClass($reflectionClass);
 
         $this->assertSame($expected, $result);
     }
 
     #[DataProviderExternal(
-        DetectForClassOrObjectDataProvider::class,
+        DetectForReflectionClassDataProvider::class,
         'provide_ErrorFlow'
     )]
-    public function test_detectForClassOrObject_ErrorFlow(
+    public function test_detectForReflectionClass_ErrorFlow(
         string|object $classOrObject,
         string $expectedException
     ): void {
         $this->expectException($expectedException);
 
-        DoNotSerializeDetector::detectForClassOrObject($classOrObject);
+        $reflectionClass = new ReflectionClass($classOrObject);
+        DoNotSerializeDetector::detectForReflectionClass($reflectionClass);
     }
 
     #[DataProviderExternal(
-        DetectForPropertyDataProvider::class,
+        DetectForReflectionPropertyDataProvider::class,
         'provide_HappyFlow'
     )]
-    public function test_detectForProperty_HappyFlow(
+    public function test_detectForReflectionProperty_HappyFlow(
         string|object $classOrObject,
         string $propertyName,
         bool $expected
     ): void {
-        $result = DoNotSerializeDetector::detectForProperty($classOrObject, $propertyName);
+        $reflectionProperty = new ReflectionProperty($classOrObject, $propertyName);
+        $result = DoNotSerializeDetector::detectForReflectionProperty($reflectionProperty);
 
         $this->assertSame($expected, $result);
     }
 
     #[DataProviderExternal(
-        DetectForPropertyDataProvider::class,
+        DetectForReflectionPropertyDataProvider::class,
         'provide_ErrorFlow'
     )]
-    public function test_detectForProperty_ErrorFlow(
+    public function test_detectForReflectionProperty_ErrorFlow(
         string|object $classOrObject,
         string $propertyName,
         string $expectedException
     ): void {
         $this->expectException($expectedException);
 
-        DoNotSerializeDetector::detectForProperty($classOrObject, $propertyName);
+        $reflectionProperty = new ReflectionProperty($classOrObject, $propertyName);
+        DoNotSerializeDetector::detectForReflectionProperty($reflectionProperty);
     }
 }
