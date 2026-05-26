@@ -4,6 +4,21 @@
 
 == 1.1.
 
+=== 1.1.1
+
+*Features:*
+
+* Added a common attribute processor for attributes that don't have any arguments;
+* `#[DoNotSerialize]` attribute now uses the implemented common attribute processor;
+
+*Documentation:*
+
+* Documented common attribute processors;
+* Adapted documentation of `#[DoNotSerialize]` attribute to reflect that it is now using a common attribute processor;
+* Docblock comments are now added to all attributes to make it easier to see in IDE tooltips when hovering over an
+attribute;
+* Minor documentation typo fixes;
+
 === 1.1.0
 
 *Features:*
