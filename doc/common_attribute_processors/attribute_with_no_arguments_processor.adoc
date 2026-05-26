@@ -14,13 +14,22 @@ Processor: link:../../../src/Common/AttributeWithNoArgumentsProcessor.php[`Attri
 
 === Methods
 
+* `::detectForReflectionClass(ReflectionClass $reflectionClass, string $attributeFqn): bool`
++
+Detects if the given reflection class has the `$attributeFqn` attribute.
+
 * `::detectForClassOrObject(string|object $classOrObject, string $attribute$Fqn): bool`
 +
-Detects if the given class or object has the `$attributeFqn` attribute.
+Detects if the given class or object has the `$attributeFqn` attribute. Uses `detectForReflectionClass` internally.
+
+* `::detectForReflectionProperty(ReflectionProperty $reflectionProperty, string $attributeFqn): bool`
++
+Detects if the given reflection property has the `$attributeFqn` attribute.
 
 * `::detectForProperty(string|object $classOrObject, string $propertyName): bool`
 +
-Detects if the given property of a class or object has the `$attributeFqn` attribute.
+Detects if the given property of a class or object has the `$attributeFqn` attribute. Uses
+`detectForReflectionProperty` internally.
 
 === Usage
 
