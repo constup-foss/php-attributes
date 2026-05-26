@@ -4,9 +4,8 @@ declare(strict_types = 1);
 
 namespace Constup\PhpAttributes\Serialization\DoNotSerialize;
 
-use ReflectionClass;
+use Constup\PhpAttributes\Common\AttributeWithNoArgumentsProcessor;
 use ReflectionException;
-use ReflectionProperty;
 
 /**
  * @see ../../../doc/available_attributes/serialization/do_not_serialize.adoc
@@ -27,10 +26,10 @@ readonly class DoNotSerializeDetector
     public static function detectForClassOrObject(
         string|object $classOrObject,
     ): bool {
-        $reflectionClass = new ReflectionClass($classOrObject);
-        $attributes = $reflectionClass->getAttributes(DoNotSerialize::class);
-
-        return !empty($attributes);
+        return AttributeWithNoArgumentsProcessor::detectForClassOrObject(
+            $classOrObject,
+            DoNotSerialize::class
+        );
     }
 
     /**
@@ -49,9 +48,10 @@ readonly class DoNotSerializeDetector
         string|object $classOrObject,
         string $propertyName,
     ): bool {
-        $reflectionProperty = new ReflectionProperty($classOrObject, $propertyName);
-        $attributes = $reflectionProperty->getAttributes(DoNotSerialize::class);
-
-        return !empty($attributes);
+        return AttributeWithNoArgumentsProcessor::detectForProperty(
+            $classOrObject,
+            $propertyName,
+            DoNotSerialize::class
+        );
     }
 }
