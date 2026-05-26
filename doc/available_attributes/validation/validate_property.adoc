@@ -38,7 +38,7 @@ attribute is being applied to. Value is an array of arguments to be passed to th
 property value. If the property name is not present as the array key, an exception is thrown. If your validation closure
 only requires the property value, you need to pass an empty array as the value.
 
-* `validateMethodWithVoidResult(object $object, ReflectionProperty $reflectionProperty, array $validationArguments = []): void`
+* `validateWithVoidResult(object $object, ReflectionProperty $reflectionProperty, array $validationArguments = []): void`
 +
 Use this method to process a property validation with a void result. If the attribute is not present, nothing happens
 (validation skipped).
