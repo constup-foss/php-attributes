@@ -8,6 +8,9 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 
+/**
+ * Contains a set of common methods for processing attributes that have no arguments.
+ */
 readonly class AttributeWithNoArgumentsProcessor
 {
     /**
