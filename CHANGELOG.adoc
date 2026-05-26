@@ -2,6 +2,33 @@
 :toc:
 :toclevels: 5
 
+== 2.0
+
+=== 2.0.0
+
+*Breaking changes:*
+
+* Attribute processing methods were instantiating reflection objects (reflection classes, reflection properties, ...)
+manually. This can have a negative performance impact. Attributes are natively processed in the reflection domain, so
+their processors should have appropriate reflection objects as parameters;
+* `PropertyValidator` is renamed to `ValidatePropertyProcessor` to follow the same naming convention as other attribute
+processors;
+* `DoNotSerializeDetector` is renamed to `DoNotSerializeProcessor`;
+
+*Features:*
+
+* Added `ValidatePropertyException`;
+
+*Fixes:*
+
+* `ValidatePropertyProcessor` is now throwing an exception when the property name is missing from array keys of the
+validation arguments;
+* Cleanup of unit tests;
+
+*Documentation:*
+
+* Updated documentation to reflect the changes;
+
 == 1.1.
 
 === 1.1.1
