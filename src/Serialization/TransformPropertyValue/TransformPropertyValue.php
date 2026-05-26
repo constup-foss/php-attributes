@@ -8,6 +8,8 @@ use Attribute;
 use Closure;
 
 /**
+ * Use this attribute to transform the value of your property.
+ *
  * @see ../../../doc/available_attributes/serialization/transform_property_value.adoc
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
