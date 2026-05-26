@@ -18,18 +18,19 @@ custom serializers or normalizers.
 
 == Attribute Processors
 
-=== `DoNotSerializeDetector`
+=== `DoNotSerializeProcessor`
 
-Processor: link:../../../src/Serialization/DoNotSerialize/DoNotSerializeDetector.php[`DoNotSerializeDetector`]
+Processor: link:../../../src/Serialization/DoNotSerialize/DoNotSerializeProcessor.php[`DoNotSerializeProcessor`]
 
-* `::detectForClassOrObject(string|object $classOrObject): bool`
+* `::detectForReflectionClass(ReflectionClass $reflectionClass): bool`
 +
-Runs link:../../common_attribute_processors/attribute_with_no_arguments_processor.adoc[AttributeWithNoArgumentsProcessor::detectForClassOrObject]
+Runs link:../../common_attribute_processors/attribute_with_no_arguments_processor.adoc[AttributeWithNoArgumentsProcessor::detectForReflectionClass]
 +
 Detects if the given class or object has the `DoNotSerialize` attribute.
-* `::detectForProperty(string|object $classOrObject, string $propertyName): bool`
+
+* `::detectForReflectionProperty(ReflectionProperty $reflectionProperty): bool`
 +
-Runs link:../../common_attribute_processors/attribute_with_no_arguments_processor.adoc[AttributeWithNoArgumentsProcessor::detectForProperty]
+Runs link:../../common_attribute_processors/attribute_with_no_arguments_processor.adoc[AttributeWithNoArgumentsProcessor::detectForReflectionProperty]
 +
 Detects if the given property of a class or object has the `DoNotSerialize` attribute.
 

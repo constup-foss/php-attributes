@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Constup\PhpAttributes\Tests\Validation\ValidateProperty\PropertyValidator\TestSamples;
+namespace Constup\PhpAttributes\Tests\Validation\ValidateProperty\ValidatePropertyProcessor\TestSamples;
 
 readonly class IntLargerThanValidator
 {
