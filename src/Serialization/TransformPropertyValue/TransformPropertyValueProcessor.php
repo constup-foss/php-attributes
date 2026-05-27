@@ -43,36 +43,13 @@ readonly class TransformPropertyValueProcessor
         $attributes = $reflectionProperty->getAttributes(TransformPropertyValue::class);
         $propertyValue = $reflectionProperty->getValue($object);
 
-        return self::processAttributes(
-            $attributes,
-            $reflectionProperty->getName(),
-            $propertyValue,
-            $transformationArguments,
-        );
-    }
-
-    /**
-     * @param array  $attributes
-     * @param string $propertyName
-     * @param mixed  $propertyValue
-     * @param array  $transformationArguments
-     *
-     * @throws TransformPropertyValueException
-     *
-     * @return mixed
-     */
-    private static function processAttributes(
-        array $attributes,
-        string $propertyName,
-        mixed $propertyValue,
-        array $transformationArguments,
-    ): mixed {
         if (empty($attributes)) {
             return $propertyValue;
         }
 
         $attributeInstance = $attributes[0]->newInstance();
         $closure = $attributeInstance->transformer;
+        $propertyName = $reflectionProperty->getName();
 
         if (array_key_exists($propertyName, $transformationArguments)) {
             return $closure($propertyValue, ...$transformationArguments[$propertyName]);

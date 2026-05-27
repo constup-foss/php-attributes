@@ -46,27 +46,6 @@ readonly class TransformPropertyNameProcessor
         $attributes = $reflectionProperty->getAttributes(TransformPropertyName::class);
         $propertyName = $reflectionProperty->getName();
 
-        return self::processAttribute(
-            $attributes,
-            $propertyName,
-            $transformationArguments,
-        );
-    }
-
-    /**
-     * @param array<ReflectionAttribute> $attributes
-     * @param string                     $propertyName
-     * @param array                      $transformationArguments
-     *
-     * @throws TransformPropertyNameException
-     *
-     * @return string
-     */
-    private static function processAttribute(
-        array $attributes,
-        string $propertyName,
-        array $transformationArguments,
-    ): string {
         if (empty($attributes)) {
             return $propertyName;
         }
