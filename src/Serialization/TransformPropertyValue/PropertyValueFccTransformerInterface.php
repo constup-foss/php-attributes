@@ -15,10 +15,10 @@ interface PropertyValueFccTransformerInterface
      * @param mixed $propertyValue The value of the property to transform.
      * @param array $context       Additional information that can be used during transformation.
      *
-     * @return string The transformed property value.
+     * @return mixed The transformed property value.
      */
     public static function transform(
         mixed $propertyValue,
         array $context = []
-    ): string;
+    ): mixed;
 }
