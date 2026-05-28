@@ -32,6 +32,7 @@ The closure is run with the property value as the first argument, followed by `a
 method that does the transformation must have the following arguments: `(mixed $propertyValue, array $context)`.
 +
 You can use the information passed inside the `$context` in your static method.
+
 ==== Usage
 
 ===== Basic example
