@@ -8,8 +8,8 @@ readonly class PrefixTransformer
 {
     public static function applyPrefix(
         string $propertyName,
-        string $prefix,
+        array $context
     ): string {
-        return $prefix . $propertyName;
+        return $context['prefix'] . $propertyName;
     }
 }
