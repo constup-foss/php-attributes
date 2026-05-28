@@ -15,7 +15,7 @@ readonly class TransformPropertyNameProcessor
      * Returns a transformed version of a property's name by running the `Closure $transformer`. If the attribute is not
      * present, the original property name is returned.
      *
-     * The closure is run with the `$propertyName` as the first argument, followed by `array $context`. Your static
+     * The closure is run with the property name as the first argument, followed by `array $context`. Your static
      * method that does the transformation must have the following arguments: `(string $propertyName, array $context)`.
      *
      * You can use the information passed inside the `$context` in your static method.
@@ -25,7 +25,7 @@ readonly class TransformPropertyNameProcessor
      *
      * @return string
      */
-    public function transform(
+    public static function transform(
         ReflectionProperty $reflectionProperty,
         array $context = [],
     ): string {

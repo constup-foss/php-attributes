@@ -23,12 +23,12 @@ Processor: link:../../../src/Serialization/TransformPropertyName/TransformProper
 
 ==== Methods
 
-* `::transform(ReflectionProperty $reflectionProperty, array $context): string`
+* `::transform(ReflectionProperty $reflectionProperty, array $context = []): string`
 +
 Returns a transformed version of a property's name by running the `Closure $transformer`. If the attribute is not
 present, the original property name is returned.
 +
-The closure is run with the `$propertyName` as the first argument, followed by `array $context`. Your static
+The closure is run with the property name as the first argument, followed by `array $context`. Your static
 method that does the transformation must have the following arguments: `(string $propertyName, array $context)`.
 +
 You can use the information passed inside the `$context` in your static method.
@@ -63,25 +63,6 @@ public static function applyPrefix(string $propertyName, array $context): string
     return $context['prefix']. $propertyName;
 }
 ----
-
-==== Edge cases
-
-===== Calling the processor on generic `object`
-
-Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
-always return the original property name, since no attributes are applied.
-
-[source,php]
-----
-$object = (object)["targetProperty" => "someValue"];
-$transformedPropertyName = TransformPropertyNameProcessor::transform(
-    reflectionProperty: new \ReflectionProperty($object, 'targetProperty'),
-    context: [],
-);
-----
-
-Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
-may change in the future with a warning or exception being thrown.
 
 == Links
 

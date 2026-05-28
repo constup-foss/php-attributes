@@ -23,9 +23,8 @@ class TransformPropertyNameProcessorTest extends TestCase
         string $expected
     ): void {
         $reflectionProperty = new ReflectionProperty($object, $propertyName);
-        $processor = new TransformPropertyNameProcessor();
 
-        $result = $processor->transform($reflectionProperty, $context);
+        $result = TransformPropertyNameProcessor::transform($reflectionProperty, $context);
 
         $this->assertSame($expected, $result);
     }
