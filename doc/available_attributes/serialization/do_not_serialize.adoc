@@ -24,13 +24,13 @@ Processor: link:../../../src/Serialization/DoNotSerialize/DoNotSerializeProcesso
 
 * `::detectForReflectionClass(ReflectionClass $reflectionClass): bool`
 +
-Runs link:../../common_attribute_processors/attribute_with_no_arguments_processor.adoc[AttributeWithNoArgumentsProcessor::detectForReflectionClass]
+Runs link:../../common_attribute_processors/is_attribute_present.adoc[AttributeWithNoArgumentsProcessor::detectForReflectionClass]
 +
 Detects if the given class or object has the `DoNotSerialize` attribute.
 
 * `::detectForReflectionProperty(ReflectionProperty $reflectionProperty): bool`
 +
-Runs link:../../common_attribute_processors/attribute_with_no_arguments_processor.adoc[AttributeWithNoArgumentsProcessor::detectForReflectionProperty]
+Runs link:../../common_attribute_processors/is_attribute_present.adoc[AttributeWithNoArgumentsProcessor::detectForReflectionProperty]
 +
 Detects if the given property of a class or object has the `DoNotSerialize` attribute.
 
