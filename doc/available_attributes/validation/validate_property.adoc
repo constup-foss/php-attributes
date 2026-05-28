@@ -92,7 +92,7 @@ Your static method should look something like this (`void` example):
 ----
 public static function yourValidationMethod(mixed $propertyValue, array $context): void
 {
-    if ($value <= $context['compareTo']) {
+    if ($propertyValue <= $context['compareTo']) {
         throw new SampleException('Value must be larger than ' . $context['compareTo']);
     }
 }
