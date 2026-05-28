@@ -32,6 +32,17 @@ The closure is run with the property value as the first argument, followed by `a
 method that does the transformation must have the following arguments: `(mixed $propertyValue, array $context)`.
 +
 You can use the information passed inside the `$context` in your static method.
+
+==== Interfaces
+
+When creating a custom transformer for the `TransformPropertValueProcessor`, your static method that does the
+transformation must have the following arguments: `(mixed $propertyValue, array $context = [])`.
+
+Your custom transformers can implement the following interfaces:
+
+* link:../../../src/Serialization/TransformPropertyValue/PropertyValueFccTransformerInterface.php[`PropertyValueFccTransformerInterface`]
+
+
 ==== Usage
 
 ===== Basic example

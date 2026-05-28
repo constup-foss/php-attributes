@@ -17,7 +17,7 @@ whose arguments are not static, but rather resolved during runtime. This removes
 attributes to cover the same base functionality, for example, validation.
 
 Of course, since this approach has its benefits and downsides, this library contains classic attributes with static
-arguments. You are free to use the ones that are the best fit for your use case.
+arguments as well. You are free to use the ones that are the best fit for your use case.
 
 == Supporting development
 

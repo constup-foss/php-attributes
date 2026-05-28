@@ -44,9 +44,19 @@ Use this method to process a property validation with a void result. If the attr
 (validation skipped).
 +
 The closure is run with the property value as the first argument, followed by `$context`. Your static method
-that performs validation must have the following arguments: `(mixed $propertyValue, array $context)`.
+that performs validation must have the following arguments: `(mixed $propertyValue, array $context = [])`.
 +
 You can use the information passed inside the `$context` in your static method.
+
+==== Interfaces
+
+When creating a custom validator for the `ValidatePropertyProcessor`, your static method that does the validation
+must have the following arguments: `(mixed $propertyValue, array $context = [])`.
+
+Your custom validators can implement the following interfaces:
+
+* link:../../../src/Validation/ValidateProperty/BoolValidationFccInterface.php[`BoolValidationFccInterface`]
+* link:../../../src/Validation/ValidateProperty/VoidValidationFccInterface.php[`VoidValidationFccInterface`]
 
 ==== Usage
 
@@ -92,7 +102,7 @@ Your static method should look something like this (`void` example):
 ----
 public static function yourValidationMethod(mixed $propertyValue, array $context): void
 {
-    if ($value <= $context['compareTo']) {
+    if ($propertyValue <= $context['compareTo']) {
         throw new SampleException('Value must be larger than ' . $context['compareTo']);
     }
 }
