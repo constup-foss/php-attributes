@@ -10,6 +10,6 @@ ones.
 
 == Available processors
 
-* link:common_attribute_processors/attribute_with_no_arguments_processor.adoc[`AttributeWithNoArgumentsProcessor`]
+* link:common_attribute_processors/is_attribute_present.adoc[`IsAttributePresent`]
 +
-Contains methods that can be applied on attributes that have no arguments.
+Detect if the attribute is present.

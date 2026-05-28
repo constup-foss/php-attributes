@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Constup\PhpAttributes\Serialization\DoNotSerialize;
 
-use Constup\PhpAttributes\Common\AttributeWithNoArgumentsProcessor;
+use Constup\PhpAttributes\Common\IsAttributePresent;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -25,7 +25,7 @@ readonly class DoNotSerializeProcessor
     public static function detectForReflectionClass(
         ReflectionClass $reflectionClass,
     ): bool {
-        return AttributeWithNoArgumentsProcessor::detectForReflectionClass($reflectionClass, DoNotSerialize::class);
+        return IsAttributePresent::detectForReflectionClass($reflectionClass, DoNotSerialize::class);
     }
 
     /**
@@ -40,6 +40,6 @@ readonly class DoNotSerializeProcessor
     public static function detectForReflectionProperty(
         ReflectionProperty $reflectionProperty,
     ): bool {
-        return AttributeWithNoArgumentsProcessor::detectForReflectionProperty($reflectionProperty, DoNotSerialize::class);
+        return IsAttributePresent::detectForReflectionProperty($reflectionProperty, DoNotSerialize::class);
     }
 }

@@ -1,4 +1,4 @@
-= AttributeWithNoArgumentsProcessor
+= IsAttributePresent
 :toc:
 :toclevels: 5
 
@@ -8,9 +8,9 @@ Common attribute processors can be used directly to process attributes of a spec
 arguments that an Attribute has). Many concrete Attribute processors in this library are just extensions of the common 
 ones.
 
-== `AttributeWithNoArgumentsProcessor`
+== `IsAttributePresent`
 
-Processor: link:../../../src/Common/AttributeWithNoArgumentsProcessor.php[`AttributeWithNoArgumentsProcessor`]
+Processor: link:../../src/Common/IsAttributePresent.php[`IsAttributePresent`]
 
 === Methods
 
@@ -41,12 +41,12 @@ class MyClass {
 }
 ----
 
-In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForReflectionProperty()` to detect whether
+In your custom serializer/normalizer use the `IsAttributePresent::detectForReflectionProperty()` to detect whether
 the attribute is applied to a specific property and exclude it from your serialization/normalization result.
 
 [source,php]
 ----
-$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForReflectionProperty(
+$shouldBeSerialized = IsAttributePresent::detectForReflectionProperty(
     reflectionProperty: new \ReflectionProperty(TargetClass::class, 'targetProperty'),
     attributeFqn: DoNotSerialize::class
 );
@@ -64,36 +64,17 @@ class MyClass {
 }
 ----
 
-In your custom serializer/normalizer use the `AttributeWithNoArgumentsProcessor::detectForreflectionClass()` to detect
+In your custom serializer/normalizer use the `IsAttributePresent::detectForreflectionClass()` to detect
 whether the attribute is applied to the class that is used as a type of property. You can use Reflection to get the type
 of your property. If it is, you can exclude that property from your serialization/normalization result.
 
 [source,php]
 ----
-$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForReflectionClass(
+$shouldBeSerialized = IsAttributePresent::detectForReflectionClass(
     reflectionClass: new \ReflectionClass(TargetClass::class),
     attrbuteFqn: DoNotSerialize::class
 );
 ----
-
-=== Edge cases
-
-==== Calling the processor on generic `object`
-
-Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
-always return `false`, since no attributes are applied.
-
-[source,php]
-----
-$object = (object)["targetProperty" => "someValue"];
-$shouldBeSerialized = AttributeWithNoArgumentsProcessor::detectForReflectionProperty(
-    reflectionProperty: new \ReflectionProperty($object, 'targetProperty'),
-    attributeFqn: DoNotSerialize::class
-);
-----
-
-Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
-may change in the future with a warning or exception being thrown.
 
 == Links
 
