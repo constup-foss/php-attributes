@@ -29,7 +29,7 @@ Returns a transformed version of a property's name by running the `Closure $tran
 present, the original property name is returned.
 +
 The closure is run with the property name as the first argument, followed by `array $context`. Your static
-method that does the transformation must have the following arguments: `(string $propertyName, array $context)`.
+method that does the transformation must have the following arguments: `(string $propertyName, array $context = []): string`.
 +
 You can use the information passed inside the `$context` in your static method.
 
