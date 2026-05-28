@@ -28,25 +28,25 @@ Processor: link:../../../src/Validation/ValidateProperty/ValidatePropertyProcess
 
 ==== Methods
 
-* `::validateWithBoolResult(object $object, ReflectionProperty $reflectionProperty, array $validationArguments = []): ?bool`
+* `::validateWithBoolResult(object $object, ReflectionProperty $reflectionProperty, array $context = []): ?bool`
 +
-Use this method to process a property validation with a boolean result. If the attribute is not present, null is
+Use this method to perform a property validation with a boolean result. If the attribute is not present, null is
 returned.
 +
-`$validationArguments` is an associative array of additional validation arguments. Index is the name of the property the
-attribute is being applied to. Value is an array of arguments to be passed to the transformation closure after the
-property value. If the property name is not present as the array key, an exception is thrown. If your validation closure
-only requires the property value, you need to pass an empty array as the value.
+The closure is run with the property value as the first argument, followed by `$context`. Your static method
+that performs validation must have the following arguments: `(mixed $propertyValue, array $context)`.
++
+You can use the information passed inside the `$context` in your static method.
 
-* `validateMethodWithVoidResult(object $object, ReflectionProperty $reflectionProperty, array $validationArguments = []): void`
+* `validateWithVoidResult(object $object, ReflectionProperty $reflectionProperty, array $context = []): void`
 +
 Use this method to process a property validation with a void result. If the attribute is not present, nothing happens
 (validation skipped).
 +
-`$validationArguments` is an associative array of additional validation arguments. Index is the name of the property the
-attribute is being applied to. Value is an array of arguments to be passed to the transformation closure after the
-property value. If the property name is not present as the array key, an exception is thrown. If your validation closure
-only requires the property value, you need to pass an empty array as the value.
+The closure is run with the property value as the first argument, followed by `$context`. Your static method
+that performs validation must have the following arguments: `(mixed $propertyValue, array $context)`.
++
+You can use the information passed inside the `$context` in your static method.
 
 ==== Usage
 
@@ -67,7 +67,7 @@ When you need to validate the value of your property, call:
 $validationResult = ValidatePropertyProcessor::validateWithBoolResult(
     object: $yourTargetObject,
     reflectionProperty: new \ReflectionProperty($yourTargetObject, 'yourPropertyName'),
-    validationArguments: ['yourPropertyName' => [$arrayOfArguments, $neededByYourStaticMethod]]
+    context: ['compareTo' => 5]
 );
 ----
 
@@ -79,34 +79,24 @@ try {
     ValidatePropertyProcessor::validateWithVoidResult(
         object: $yourTargetObject,
         reflectionProperty: new \ReflectionProperty($yourTargetObject, 'yourPropertyName'),
-        validationArguments: ['yourPropertyName' => [$arrayOfArguments, $neededByYourStaticMethod]]
+        context: ['compareTo' => 5]
     );
 } catch (Exception $exception) {
     // process your validation exception here
 }
 ----
 
-Remember to place property value as the first parameter of your static method.
-
-==== Edge cases
-
-===== Calling the processor on generic `object`
-
-Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
-always skip the validation, since no attributes are applied.
+Your static method should look something like this (`void` example):
 
 [source,php]
 ----
-$yourTargetObject = (object)["targetProperty" => "someValue"];
-$validationResult = ValidatePropertyProcessor::validateWithBoolResult(
-    object: $yourTargetObject,
-    reflectionProperty: new \ReflectionProperty($yourTargetObject, 'yourPropertyName'),
-    validationArguments: ['yourPropertyName' => [$arrayOfArguments, $neededByYourStaticMethod]]
-);
+public static function yourValidationMethod(mixed $propertyValue, array $context): void
+{
+    if ($value <= $context['compareTo']) {
+        throw new SampleException('Value must be larger than ' . $context['compareTo']);
+    }
+}
 ----
-
-Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
-may change in the future with a warning or exception being thrown.
 
 == Links
 

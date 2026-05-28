@@ -7,21 +7,21 @@ namespace Constup\PhpAttributes\Tests\Validation\ValidateProperty\ValidateProper
 readonly class IntLargerThanValidator
 {
     /**
-     * @param int $value
-     * @param int $compareTo
+     * @param int   $value
+     * @param array $context
      *
      * @return bool
      */
     public static function validateLargerThanWithBoolResult(
         int $value,
-        int $compareTo,
+        array $context
     ): bool {
-        return $value > $compareTo;
+        return $value > $context['compareTo'];
     }
 
     /**
-     * @param int $value
-     * @param int $compareTo
+     * @param int   $value
+     * @param array $context
      *
      * @throws SampleException
      *
@@ -29,10 +29,10 @@ readonly class IntLargerThanValidator
      */
     public static function validateLargerThanWithVoidResult(
         int $value,
-        int $compareTo,
+        array $context,
     ): void {
-        if ($value <= $compareTo) {
-            throw new SampleException('Value must be larger than ' . $compareTo);
+        if ($value <= $context['compareTo']) {
+            throw new SampleException('Value must be larger than ' . $context['compareTo']);
         }
     }
 }

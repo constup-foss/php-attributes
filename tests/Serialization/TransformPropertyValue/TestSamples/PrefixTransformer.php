@@ -7,9 +7,9 @@ namespace Constup\PhpAttributes\Tests\Serialization\TransformPropertyValue\TestS
 readonly class PrefixTransformer
 {
     public static function applyPrefix(
-        string $originalValue,
-        string $prefix
+        mixed $originalValue,
+        array $context,
     ): string {
-        return $prefix . $originalValue;
+        return $context['prefix'] . $originalValue;
     }
 }

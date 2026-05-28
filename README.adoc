@@ -65,10 +65,6 @@ You are free to use them on third-party attributes or even on your own attribute
 The list of available common attribute processors is avaliable on a separate page:
 link:doc/common_attribute_processors.adoc[Common attribute processors].
 
-== Changelog
-
-Changelog is available on a separate page: link:CHANGELOG.adoc[]
-
 == License
 
 MIT License

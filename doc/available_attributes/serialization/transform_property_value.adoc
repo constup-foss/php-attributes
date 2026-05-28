@@ -23,19 +23,15 @@ Processor: link:../../../src/Serialization/TransformPropertyValue/TransformPrope
 
 ==== Methods
 
-* `::transformReflectionProperty(object $object, ReflectionProperty $reflectionProperty, array $transformationArguments = []): mixed`
+* `::transform(object $object, ReflectionProperty $reflectionProperty, array $context = []): mixed`
 +
-Returns a transformed version of `$propertyValue` by running the closure defined in the attribute. If the attribute is
-not present, the original `$propertyValue` is returned.
+Returns a transformed version of a property's value by running the `Closure $transformer`. If the attribute is not
+present, the original property value is returned.
 +
-Note that the closure is run with the `$propertyValue` as the first argument, followed by `$transformationArguments`.
-This effectively means that your static method that does the transformation must have the property value as its first
-argument.
+The closure is run with the property value as the first argument, followed by `array $context`. Your static
+method that does the transformation must have the following arguments: `(mixed $propertyValue, array $context)`.
 +
-`$transformationArguments` is an associative array of additional transformation arguments. Index is the name of the
-property the attribute is being applied to. Value is an array of arguments to be passed to the transformation closure
-after the property value. If the property name is not present as the array key, but is expected, an exception is thrown.
-
+You can use the information passed inside the `$context` in your static method.
 ==== Usage
 
 ===== Basic example
@@ -44,7 +40,7 @@ Apply the attribute to a property:
 
 [source,php]
 ----
-#[TransformPropertyValue(YourNameTransformingClass::yourStaticMethod(...))]
+#[TransformPropertyValue(YourNameTransformingClass::applyPrefix(...))]
 public int $yourProperty;
 ----
 
@@ -52,34 +48,21 @@ When you need to transform the value of your property, call:
 
 [source, php]
 ----
-$transformedPropertyValue = TransformPropertyValueProcessor::transformReflectionProperty(
+$transformedPropertyValue = TransformPropertyValueProcessor::transform(
     object: $yourObject,
     reflectionProperty: new \ReflectionProperty($yourObject, 'yourPropertyName'),
-    transformationArguments: ['yourPropertyName' => [$arrayOfArguments, $neededByYourStaticMethod]]
+    context: ['prefix' => 'somePrefix_'],
 );
 ----
 
-Remember to place original property value as the first parameter of your static method.
-
-==== Edge cases
-
-===== Calling the processor on generic `object`
-
-Generic `object` instances do not have attributes. Calling a processor with a generic `object` as an argument will
-always return the original property value, since no attributes are applied.
+Your static method should look something like this:
 
 [source,php]
 ----
-$yourTargetObject = (object)["targetProperty" => "someValue"];
-$transformedPropertyValue = TransformPropertyValueProcessor::transformReflectionProperty(
-    object: $yourTargetObject,
-    reflectionProperty: new \ReflectionProperty($yourTargetObject, 'targetProperty'),
-    transformationArguments: ['targetProperty' => [$arrayOfArguments, $neededByYourStaticMethod]],
-);
+public static function applyPrefix(string $originalValue, array $context): string {
+    return $context['prefix']. $originalValue;
+}
 ----
-
-Although this is an obvious waste of processing time, it is technically not an error. Keep in mind that this behavior
-may change in the future with a warning or exception being thrown.
 
 == Links
 

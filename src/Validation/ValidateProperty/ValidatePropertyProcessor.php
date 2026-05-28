@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Constup\PhpAttributes\Validation\ValidateProperty;
 
-use Constup\PhpAttributes\Exceptions\Exceptions\ValidatePropertyException;
 use ReflectionProperty;
 
 /**
@@ -13,23 +12,17 @@ use ReflectionProperty;
 readonly class ValidatePropertyProcessor
 {
     /**
-     * Use this method to process a property validation with a boolean result.
+     * Use this method to perform a property validation with a boolean result.
      * If the attribute is not present, null is returned.
      *
-     *  Note that the closure is run with the property value as the first argument, followed by
-     *  `$validationArguments`. This effectively means that your static method that does the validation must have
-     *  the property value as its first argument.
+     * The closure is run with the property value as the first argument, followed by `$context`. Your static method
+     * that performs validation must have the following arguments: `(mixed $propertyValue, array $context)`.
+     *
+     * You can use the information passed inside the `$context` in your static method.
      *
      * @param object             $object
      * @param ReflectionProperty $reflectionProperty
-     * @param array              $validationArguments Associative array of additional validation arguments.
-     *                                                Index is the name of the property the attribute is being applied to. Value is
-     *                                                an array of arguments to be passed to the validation closure after the
-     *                                                property value. If the property name is not present as the array key,
-     *                                                an exception is thrown. If your validation closure only requires the property
-     *                                                value, you need to pass an empty array as the value.
-     *
-     * @throws ValidatePropertyException
+     * @param array              $context
      *
      * @return bool|null
      *
@@ -38,7 +31,7 @@ readonly class ValidatePropertyProcessor
     public static function validateWithBoolResult(
         object $object,
         ReflectionProperty $reflectionProperty,
-        array $validationArguments = [],
+        array $context = []
     ): ?bool {
         $attributes = $reflectionProperty->getAttributes(ValidateProperty::class);
 
@@ -50,31 +43,20 @@ readonly class ValidatePropertyProcessor
         $attributeInstance = $attributes[0]->newInstance();
         $closure = $attributeInstance->validator;
 
-        if (array_key_exists($reflectionProperty->getName(), $validationArguments)) {
-            return $closure($propertyValue, ...$validationArguments[$reflectionProperty->getName()]);
-        }
-
-        throw new ValidatePropertyException()->missingValidationArguments($reflectionProperty->getName());
+        return $closure($propertyValue, $context);
     }
 
     /**
-     * Use this method to process a property validation with a void result.
-     * If the attribute is not present, nothing happens (validation skipped).
+     * Use this method to perform a property validation with a void result.
      *
-     * Note that the closure is run with the property value as the first argument, followed by
-     * `$validationArguments`. This effectively means that your static method that does the validation must have
-     * the property value as its first argument.
+     * The closure is run with the property value as the first argument, followed by `$context`. Your static method
+     * that performs validation must have the following arguments: `(mixed $propertyValue, array $context)`.
+     *
+     * You can use the information passed inside the `$context` in your static method.
      *
      * @param object             $object
      * @param ReflectionProperty $reflectionProperty
-     * @param array              $validationArguments Associative array of additional validation arguments.
-     *                                                Index is the name of the property the attribute is being applied to. Value is
-     *                                                an array of arguments to be passed to the validation closure after the
-     *                                                property value. If the property name is not present as the array key,
-     *                                                an exception is thrown. If your validation closure only requires the property
-     *                                                value, you need to pass an empty array as the value.
-     *
-     * @throws ValidatePropertyException
+     * @param array              $context
      *
      * @return void
      *
@@ -83,7 +65,7 @@ readonly class ValidatePropertyProcessor
     public static function validateWithVoidResult(
         object $object,
         ReflectionProperty $reflectionProperty,
-        array $validationArguments = [],
+        array $context = []
     ): void {
         $attributes = $reflectionProperty->getAttributes(ValidateProperty::class);
 
@@ -95,12 +77,6 @@ readonly class ValidatePropertyProcessor
         $attributeInstance = $attributes[0]->newInstance();
         $closure = $attributeInstance->validator;
 
-        if (array_key_exists($reflectionProperty->getName(), $validationArguments)) {
-            $closure($propertyValue, ...$validationArguments[$reflectionProperty->getName()]);
-
-            return;
-        }
-
-        throw new ValidatePropertyException()->missingValidationArguments($reflectionProperty->getName());
+        $closure($propertyValue, $context);
     }
 }

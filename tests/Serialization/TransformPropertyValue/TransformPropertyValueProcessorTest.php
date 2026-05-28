@@ -19,42 +19,17 @@ class TransformPropertyValueProcessorTest extends TestCase
     public function test_transformReflectionProperty_HappyFlow(
         object $object,
         string $propertyName,
-        array $transformationArguments,
+        array $context,
         mixed $expected
     ): void {
         $reflectionProperty = new ReflectionProperty($object, $propertyName);
 
-        $result = TransformPropertyValueProcessor::transformReflectionProperty(
+        $result = TransformPropertyValueProcessor::transform(
             $object,
             $reflectionProperty,
-            $transformationArguments,
+            $context,
         );
 
         $this->assertSame($expected, $result);
-    }
-
-    #[DataProviderExternal(
-        TransformReflectionPropertyDataProvider::class,
-        'provide_ErrorFlow'
-    )]
-    public function test_transformReflectionProperty_ErrorFlow(
-        object $object,
-        string $propertyName,
-        array $transformationArguments,
-        string $expectedException,
-        ?int $expectedExceptionCode
-    ): void {
-        $this->expectException($expectedException);
-        if ($expectedExceptionCode !== null) {
-            $this->expectExceptionCode($expectedExceptionCode);
-        }
-
-        $reflectionProperty = new ReflectionProperty($object, $propertyName);
-
-        TransformPropertyValueProcessor::transformReflectionProperty(
-            $object,
-            $reflectionProperty,
-            $transformationArguments,
-        );
     }
 }

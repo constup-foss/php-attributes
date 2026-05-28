@@ -20,14 +20,14 @@ class ValidatePropertyProcessorTest extends TestCase
     public function test_validateWithBoolResult_HappyFlow(
         object $object,
         string $propertyName,
-        array $validationArguments,
+        array $context,
         ?bool $expected
     ): void {
         $reflectionProperty = new ReflectionProperty($object, $propertyName);
         $result = ValidatePropertyProcessor::validateWithBoolResult(
             $object,
             $reflectionProperty,
-            $validationArguments,
+            $context,
         );
 
         if ($expected === null) {
@@ -40,37 +40,13 @@ class ValidatePropertyProcessorTest extends TestCase
     }
 
     #[DataProviderExternal(
-        ValidateWithBoolResultDataProvider::class,
-        'provide_ErrorFlow'
-    )]
-    public function test_validateWithBoolResult_ErrorFlow(
-        object $object,
-        string $propertyName,
-        array $validationArguments,
-        string $expectedException,
-        ?int $expectedExceptionCode
-    ): void {
-        $this->expectException($expectedException);
-        if ($expectedExceptionCode !== null) {
-            $this->expectExceptionCode($expectedExceptionCode);
-        }
-
-        $reflectionProperty = new ReflectionProperty($object, $propertyName);
-        ValidatePropertyProcessor::validateWithBoolResult(
-            $object,
-            $reflectionProperty,
-            $validationArguments,
-        );
-    }
-
-    #[DataProviderExternal(
         ValidateWithVoidResultDataProvider::class,
         'provide_HappyFlow'
     )]
     public function test_validateWithVoidResult_HappyFlow(
         object $object,
         string $propertyName,
-        array $validationArguments,
+        array $context,
         ?string $expectedException
     ): void {
         if ($expectedException === null) {
@@ -84,32 +60,7 @@ class ValidatePropertyProcessorTest extends TestCase
         ValidatePropertyProcessor::validateWithVoidResult(
             $object,
             $reflectionProperty,
-            $validationArguments,
-        );
-    }
-
-    #[DataProviderExternal(
-        ValidateWithVoidResultDataProvider::class,
-        'provide_ErrorFlow'
-    )]
-    public function test_validateWithVoidResult_ErrorFlow(
-        object $object,
-        string $propertyName,
-        array $validationArguments,
-        string $expectedException,
-        ?int $expectedExceptionCode,
-    ): void {
-        $this->expectException($expectedException);
-        if ($expectedExceptionCode !== null) {
-            $this->expectExceptionCode($expectedExceptionCode);
-        }
-
-        $reflectionProperty = new ReflectionProperty($object, $propertyName);
-
-        ValidatePropertyProcessor::validateWithVoidResult(
-            $object,
-            $reflectionProperty,
-            $validationArguments,
+            $context,
         );
     }
 }
