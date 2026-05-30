@@ -19,6 +19,12 @@ attributes to cover the same base functionality, for example, validation.
 Of course, since this approach has its benefits and downsides, this library contains classic attributes with static
 arguments as well. You are free to use the ones that are the best fit for your use case.
 
+=== Libraries that use `constup-foss/php-attributes`
+
+* https://github.com/constup-foss/php-serializer - `constup-foss/php-serializer` is a PHP serializer, deserializaer,
+normalizer and denormalizer library that uses attributes supporting FCCs. The library is currently in active
+development and is not production-ready.
+
 == Supporting development
 
 If you like this library or find it useful, consider buying me a nice cup of coffee. Coffee fuels open source.
